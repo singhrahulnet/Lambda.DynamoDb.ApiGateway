@@ -51,6 +51,7 @@
     "GetMining": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
+        "FunctionName": "GetMining"
         "Handler": "ILV.Api::ILV.Api.Functions::GetMiningStatusAsync",
         "Runtime": "dotnetcore3.1",
         "CodeUri": "",
@@ -91,6 +92,7 @@
     "StartMining": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
+        "FunctionName": "StartMining"
         "Handler": "ILV.Api::ILV.Api.Functions::StartMiningAsync",
         "Runtime": "dotnetcore3.1",
         "CodeUri": "",
