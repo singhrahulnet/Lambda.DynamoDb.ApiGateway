@@ -38,7 +38,7 @@ Open `test/ILV.Api.Tests` folder in terminal and run the following command
 ```
 
 ## Deploying the Stack
-* Review the AWS settings are defined in `aws-lambda-tools-defaults.json` file.
+* Review the AWS settings are defined in [`aws-lambda-tools-defaults.json`](src/ILV.Api/aws-lambda-tools-defaults.json) file. 
 * Couldn't get SAM template to create S3 bucket (for uploading artifacts) with first time deployment. It could be access issue or a bug. You may have to create (just once) a S3 bucket named `ilv-api-bundle"` as defined the the file above, sorry! 
 
 Open `src/ILV.Api` folder in terminal and run the following command -
