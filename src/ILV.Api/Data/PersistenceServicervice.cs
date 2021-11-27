@@ -23,13 +23,6 @@ namespace ILV.Api.Data
             SetDbContext(ddbClient, tableName);
         }
 
-        private void SetDbContext(IAmazonDynamoDB ddbClient, string tableName)
-        {
-            AWSConfigsDynamoDB.Context.TypeMappings[typeof(Mining)] = new Amazon.Util.TypeMapping(typeof(Mining), tableName);
-            var config = new DynamoDBContextConfig { Conversion = DynamoDBEntryConversion.V2 };
-            _dDBContext = new DynamoDBContext(ddbClient, config);
-        }
-
         public async Task SaveAsync(Mining mining)
         {
             await _dDBContext.SaveAsync<Mining>(mining);
@@ -43,6 +36,13 @@ namespace ILV.Api.Data
         public async Task DeleteAsync(string id)
         {
             await _dDBContext.DeleteAsync<Mining>(id);
+        }
+
+        private void SetDbContext(IAmazonDynamoDB ddbClient, string tableName)
+        {
+            AWSConfigsDynamoDB.Context.TypeMappings[typeof(Mining)] = new Amazon.Util.TypeMapping(typeof(Mining), tableName);
+            var config = new DynamoDBContextConfig { Conversion = DynamoDBEntryConversion.V2 };
+            _dDBContext = new DynamoDBContext(ddbClient, config);
         }
     }
 }
