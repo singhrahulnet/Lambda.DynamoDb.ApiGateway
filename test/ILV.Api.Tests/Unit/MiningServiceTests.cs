@@ -31,16 +31,14 @@ namespace ILV.Api.Tests.Unit
         }
 
         [Fact]
-        public async Task GivenTheIdIsNotInDb_WhenCallingGetMiningResult_ThenMinus1IsReturned()
+        public async Task GivenTheIdIsNotInDb_WhenCallingGetMiningResult_ThenMiningResultNotFoundExceptionIsThrown()
         {
             string id = "randomId";
 
             _mockPersisytenceService.Setup(x => x.GetAsync(id))
                                         .Returns(Task.FromResult<Mining>(null));
 
-            var result = await sut.GetMiningResult(id);
-
-            Assert.Equal(-1, result);
+            await Assert.ThrowsAsync<MiningResultNotFoundException>(() => sut.GetMiningResult(id));
         }
 
         [Fact]

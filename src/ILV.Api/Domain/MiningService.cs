@@ -30,9 +30,9 @@ namespace ILV.Api.Domain
 
             var mining = await _persistenceService.GetAsync(id);
 
-            if (mining == null) result = -1;
+            if (mining == null) throw new MiningResultNotFoundException();
 
-            else if (MiningCreatedTimeIsInRange(mining.CreatedTimestamp, 30, 90))
+            if (MiningCreatedTimeIsInRange(mining.CreatedTimestamp, 30, 90))
             {
                 await _persistenceService.DeleteAsync(id);
                 result = new Random().Next(1, 99);

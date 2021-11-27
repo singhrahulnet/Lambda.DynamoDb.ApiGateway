@@ -68,7 +68,7 @@ namespace ILV.Api.Tests.Unit
         }
 
         [Fact]
-        public async Task GivenMiningServiceReturnsMinus1_WhenCallingGetLambda_NotFoundIsReturned()
+        public async Task GivenMiningServiceThrowsMiningServiceException_WhenCallingGetLambda_NotFoundIsReturned()
         {
             var newlyAddedGuid = Guid.NewGuid().ToString();
 
@@ -78,7 +78,7 @@ namespace ILV.Api.Tests.Unit
             };
 
             _mockMiningService.Setup(x => x.GetMiningResult(newlyAddedGuid))
-                                .Returns(Task.FromResult<int>(-1));
+                                .Throws(new MiningResultNotFoundException());
 
 
             var result = await sut.GetMiningStatusAsync(request, null);

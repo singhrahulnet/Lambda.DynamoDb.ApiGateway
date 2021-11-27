@@ -39,7 +39,6 @@ namespace ILV.Api
         /// <returns></returns>
         public async Task<APIGatewayProxyResponse> StartMiningAsync(APIGatewayProxyRequest request, ILambdaContext context)
         {
-
             var id = await _miningService.StartMining();
 
             return new APIGatewayProxyResponse
@@ -67,13 +66,18 @@ namespace ILV.Api
                 };
             }
 
-            var result = await _miningService.GetMiningResult(id);
+            int result;
 
-            if (result == -1)
+            try
+            {
+                result = await _miningService.GetMiningResult(id);
+            }
+            catch (MiningServiceException ex)
             {
                 return new APIGatewayProxyResponse
                 {
-                    StatusCode = (int)HttpStatusCode.NotFound
+                    StatusCode = ex.StatusCode,
+                    Body = ex.ApiResponseMessage
                 };
             }
 
