@@ -20,7 +20,7 @@ namespace ILV.Api
         /// </summary>
         public Functions()
         {
-            _miningService = Startup.GetService<IMiningService>();
+            _miningService = new Startup().GetService<IMiningService>();
         }
 
         /// <summary>

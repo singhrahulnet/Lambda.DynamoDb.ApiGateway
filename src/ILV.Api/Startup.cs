@@ -7,14 +7,14 @@ namespace ILV.Api
 {
     public class Startup
     {
-        private static IServiceProvider _serviceProvider;
+        private IServiceProvider _serviceProvider;
 
         public Startup()
         {
             ConfigureServices();
         }
 
-        private static void ConfigureServices()
+        private void ConfigureServices()
         {
             _serviceProvider = new ServiceCollection()
                                     .AddScoped<IPersistenceService, PersistenceService>()
@@ -22,7 +22,7 @@ namespace ILV.Api
                                     .BuildServiceProvider();
         }
 
-        public static T GetService<T>()
+        public T GetService<T>()
         {
             return (T)_serviceProvider.GetService(typeof(T));
         }
