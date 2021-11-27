@@ -48,10 +48,10 @@
     }
   },
   "Resources": {
-    "GetMining": {
+    "GetMiningStatus": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
-        "FunctionName": "GetMining"
+        "FunctionName": "GetMiningStatus"
         "Handler": "ILV.Api::ILV.Api.Functions::GetMiningStatusAsync",
         "Runtime": "dotnetcore3.1",
         "CodeUri": "",
@@ -81,6 +81,7 @@
         "Events": {
           "PutResource": {
             "Type": "Api",
+            "RestApiId": "GetMiningStatusEndpoint"
             "Properties": {
               "Path": "/{Id}",
               "Method": "GET"
@@ -122,6 +123,7 @@
         "Events": {
           "PutResource": {
             "Type": "Api",
+            "RestApiId": "StartMiningEndpoint"
             "Properties": {
               "Path": "/",
               "Method": "POST"
