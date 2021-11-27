@@ -13,6 +13,7 @@ using Amazon.DynamoDBv2.Model;
 using Xunit;
 using ILV.Api.Domain;
 using ILV.Api.Data;
+using System.Net;
 
 namespace ILV.Api.Tests.Integration
 {
@@ -41,7 +42,7 @@ namespace ILV.Api.Tests.Integration
             var context = new TestLambdaContext();
 
             var response = await sut.StartMiningAsync(request, context);
-            Assert.Equal(201, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.Created, response.StatusCode);
 
             var miningId = response.Body;
             request = new APIGatewayProxyRequest
@@ -62,7 +63,7 @@ namespace ILV.Api.Tests.Integration
             var context = new TestLambdaContext();
 
             var response = await sut.StartMiningAsync(request, context);
-            Assert.Equal(201, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.Created, response.StatusCode);
 
             var miningId = response.Body;
             request = new APIGatewayProxyRequest
@@ -85,7 +86,7 @@ namespace ILV.Api.Tests.Integration
 
             response = await sut.GetMiningStatusAsync(request, context);
 
-            Assert.Equal(404, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Fact]
@@ -95,7 +96,7 @@ namespace ILV.Api.Tests.Integration
             var context = new TestLambdaContext();
 
             var response = await sut.StartMiningAsync(request, context);
-            Assert.Equal(201, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.Created, response.StatusCode);
 
             var miningId = response.Body;
             request = new APIGatewayProxyRequest
@@ -107,7 +108,7 @@ namespace ILV.Api.Tests.Integration
             Thread.Sleep(TimeSpan.FromSeconds(90));
             response = await sut.GetMiningStatusAsync(request, context);
 
-            Assert.Equal(200, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
             Assert.Equal("0", response.Body);
         }
 
@@ -122,7 +123,7 @@ namespace ILV.Api.Tests.Integration
 
             var response = await sut.GetMiningStatusAsync(request, context);
 
-            Assert.Equal(404, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Fact]
@@ -133,7 +134,7 @@ namespace ILV.Api.Tests.Integration
 
             var response = await sut.GetMiningStatusAsync(request, context);
 
-            Assert.Equal(400, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         private async Task SetupTableAsync()
@@ -171,7 +172,7 @@ namespace ILV.Api.Tests.Integration
             DescribeTableResponse response;
             do
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(TimeSpan.FromSeconds(1));
                 response = await _dDBClient.DescribeTableAsync(describeRequest);
             } while (response.Table.TableStatus != TableStatus.ACTIVE);
         }

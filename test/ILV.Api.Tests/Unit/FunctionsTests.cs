@@ -5,6 +5,7 @@ using ILV.Api.Domain;
 using System.Threading.Tasks;
 using Amazon.Lambda.APIGatewayEvents;
 using System.Collections.Generic;
+using System.Net;
 
 namespace ILV.Api.Tests.Unit
 {
@@ -29,7 +30,7 @@ namespace ILV.Api.Tests.Unit
             var result = await sut.StartMiningAsync(null, null);
 
             Assert.IsType<APIGatewayProxyResponse>(result);
-            Assert.Equal(201, result.StatusCode);
+            Assert.Equal((int)HttpStatusCode.Created, result.StatusCode);
             Assert.Equal(newlyAddedGuid.ToString(), result.Body);
         }
 
@@ -42,7 +43,7 @@ namespace ILV.Api.Tests.Unit
             var result = await sut.GetMiningStatusAsync(request, null);
 
             Assert.IsType<APIGatewayProxyResponse>(result);
-            Assert.Equal(400, result.StatusCode);
+            Assert.Equal((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [Fact]
@@ -67,7 +68,7 @@ namespace ILV.Api.Tests.Unit
         }
 
         [Fact]
-        public async Task GivenMiningServiceReturnsMinus1_WhenCallingGetLambda_404IsReturned()
+        public async Task GivenMiningServiceReturnsMinus1_WhenCallingGetLambda_NotFoundIsReturned()
         {
             var newlyAddedGuid = Guid.NewGuid().ToString();
 
@@ -83,7 +84,7 @@ namespace ILV.Api.Tests.Unit
             var result = await sut.GetMiningStatusAsync(request, null);
 
             Assert.IsType<APIGatewayProxyResponse>(result);
-            Assert.Equal(404, result.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NotFound, result.StatusCode);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ILV.Api
         }
 
         /// <summary>
-        /// Constructor used for testing by passing in custom service
+        /// Constructor used for integration testing by passing in custom service
         /// </summary>
         /// <param name="miningService"></param>
         public Functions(IMiningService miningService)
