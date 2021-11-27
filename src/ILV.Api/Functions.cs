@@ -37,7 +37,7 @@ namespace ILV.Api
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> AddNFTAsync(APIGatewayProxyRequest request, ILambdaContext context)
+        public async Task<APIGatewayProxyResponse> StartMiningAsync(APIGatewayProxyRequest request, ILambdaContext context)
         {
 
             var id = await _miningService.StartMining();
@@ -50,11 +50,11 @@ namespace ILV.Api
         }
 
         /// <summary>
-        /// A Lambda function that returns the nft identified by id
+        /// A Lambda function that returns the mining status identified by id
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> GetNFTAsync(APIGatewayProxyRequest request, ILambdaContext context)
+        public async Task<APIGatewayProxyResponse> GetMiningStatusAsync(APIGatewayProxyRequest request, ILambdaContext context)
         {
             string id = ExtractIdFromRequest(request);
 
@@ -86,12 +86,12 @@ namespace ILV.Api
 
         private static string ExtractIdFromRequest(APIGatewayProxyRequest request)
         {
-            string nftId = null;
+            string miningId = null;
             if (request.PathParameters != null && request.PathParameters.ContainsKey(ID_QUERY_STRING_NAME))
-                nftId = request.PathParameters[ID_QUERY_STRING_NAME];
+                miningId = request.PathParameters[ID_QUERY_STRING_NAME];
             else if (request.QueryStringParameters != null && request.QueryStringParameters.ContainsKey(ID_QUERY_STRING_NAME))
-                nftId = request.QueryStringParameters[ID_QUERY_STRING_NAME];
-            return nftId;
+                miningId = request.QueryStringParameters[ID_QUERY_STRING_NAME];
+            return miningId;
         }
     }
 }

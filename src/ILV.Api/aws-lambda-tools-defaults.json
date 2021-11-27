@@ -10,7 +10,7 @@
   "configuration": "Release",
   "framework": "netcoreapp3.1",
   "s3-bucket": "ilv-api-bundle",
-  "stack-name": "ilv-api-stack",
+  "stack-name": "ilv-api",
   "template": "serverless.template",
-  "template-parameters": "ShouldCreateTable=true;NFTTableName=ilv-nft"
+  "template-parameters": "ShouldCreateTable=true;MiningTableName=ilv-mining"
 }

@@ -3,7 +3,7 @@ using Amazon.DynamoDBv2.DataModel;
 
 namespace ILV.Api.Models
 {
-    public class NFT
+    public class Mining
     {
         [DynamoDBHashKey]
         public string Id { get; set; }

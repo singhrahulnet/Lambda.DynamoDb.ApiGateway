@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Transform": "AWS::Serverless-2016-10-31",
-  "Description": "AWS Serverless API that exposes the add, remove and get operations for a blogging platform using Amazon DynamoDB.",
+  "Description": "AWS Serverless API that exposes the add and get operations for a mining platform using Amazon DynamoDB.",
   "Parameters": {
     "ShouldCreateTable": {
       "Type": "String",
@@ -9,28 +9,28 @@
         "true",
         "false"
       ],
-      "Description": "If true then the DynamoDB blogging table will be created with the CloudFormation stack."
+      "Description": "If true then the DynamoDB mining table will be created with the CloudFormation stack."
     },
-    "NFTTableName": {
+    "MiningTableName": {
       "Type": "String",
-      "Description": "Name of DynamoDB table used to store the blog post. If left blank a new table will be created.",
+      "Description": "Name of DynamoDB table used to store the mining post. If left blank a new table will be created.",
       "MinLength": "0"
     },
     "ReadCapacity": {
       "Type": "Number",
-      "Description": "Read capacity for the DynamoDB blog table.",
+      "Description": "Read capacity for the DynamoDB mining table.",
       "Default": "3",
       "MinValue": 1
     },
     "WriteCapacity": {
       "Type": "Number",
-      "Description": "Write capacity for the DynamoDB blog table.",
+      "Description": "Write capacity for the DynamoDB mining table.",
       "Default": "3",
       "MinValue": 1
     }
   },
   "Conditions": {
-    "CreateNFTTable": {
+    "CreateMiningTable": {
       "Fn::Equals": [
         {
           "Ref": "ShouldCreateTable"
@@ -41,20 +41,20 @@
     "TableNameGenerated": {
       "Fn::Equals": [
         {
-          "Ref": "NFTTableName"
+          "Ref": "MiningTableName"
         },
         ""
       ]
     }
   },
   "Resources": {
-    "GetBlog": {
+    "Getmining": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
-        "Handler": "ILV.Api::ILV.Api.Functions::GetNFTAsync",
+        "Handler": "ILV.Api::ILV.Api.Functions::GetMiningStatusAsync",
         "Runtime": "dotnetcore3.1",
         "CodeUri": "",
-        "Description": "Function to get a single blog",
+        "Description": "Function to get a single mining",
         "MemorySize": 256,
         "Timeout": 30,
         "Role": null,
@@ -64,14 +64,14 @@
         ],
         "Environment": {
           "Variables": {
-            "NFTTable": {
+            "MiningTable": {
               "Fn::If": [
-                "CreateNFTTable",
+                "CreateMiningTable",
                 {
-                  "Ref": "NFTTable"
+                  "Ref": "MiningTable"
                 },
                 {
-                  "Ref": "NFTTableName"
+                  "Ref": "MiningTableName"
                 }
               ]
             }
@@ -88,13 +88,13 @@
         }
       }
     },
-    "AddBlog": {
+    "Addmining": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
-        "Handler": "ILV.Api::ILV.Api.Functions::AddNFTAsync",
+        "Handler": "ILV.Api::ILV.Api.Functions::StartMiningAsync",
         "Runtime": "dotnetcore3.1",
         "CodeUri": "",
-        "Description": "Function to add a blog",
+        "Description": "Function to add a mining",
         "MemorySize": 256,
         "Timeout": 30,
         "Role": null,
@@ -104,14 +104,14 @@
         ],
         "Environment": {
           "Variables": {
-            "NFTTable": {
+            "MiningTable": {
               "Fn::If": [
-                "CreateNFTTable",
+                "CreateMiningTable",
                 {
-                  "Ref": "NFTTable"
+                  "Ref": "MiningTable"
                 },
                 {
-                  "Ref": "NFTTableName"
+                  "Ref": "MiningTableName"
                 }
               ]
             }
@@ -128,9 +128,9 @@
         }
       }
     },
-    "NFTTable": {
+    "MiningTable": {
       "Type": "AWS::DynamoDB::Table",
-      "Condition": "CreateNFTTable",
+      "Condition": "CreateMiningTable",
       "Properties": {
         "TableName": {
           "Fn::If": [
@@ -139,7 +139,7 @@
               "Ref": "AWS::NoValue"
             },
             {
-              "Ref": "NFTTableName"
+              "Ref": "MiningTableName"
             }
           ]
         },
@@ -167,15 +167,15 @@
     }
   },
   "Outputs": {
-    "NFTTable": {
+    "MiningTable": {
       "Value": {
         "Fn::If": [
-          "CreateNFTTable",
+          "CreateMiningTable",
           {
-            "Ref": "NFTTable"
+            "Ref": "MiningTable"
           },
           {
-            "Ref": "NFTTableName"
+            "Ref": "MiningTableName"
           }
         ]
       }

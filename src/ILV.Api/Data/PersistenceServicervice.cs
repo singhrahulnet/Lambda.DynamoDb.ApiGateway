@@ -10,7 +10,7 @@ namespace ILV.Api.Data
     public class PersistenceService : IPersistenceService
     {
         private IDynamoDBContext _dDBContext { get; set; }
-        const string TABLENAME_ENVIRONMENT_VARIABLE_LOOKUP = "NFTTable";
+        const string TABLENAME_ENVIRONMENT_VARIABLE_LOOKUP = "MiningTable";
 
         public PersistenceService()
         {
@@ -25,24 +25,24 @@ namespace ILV.Api.Data
 
         private void SetDbContext(IAmazonDynamoDB ddbClient, string tableName)
         {
-            AWSConfigsDynamoDB.Context.TypeMappings[typeof(NFT)] = new Amazon.Util.TypeMapping(typeof(NFT), tableName);
+            AWSConfigsDynamoDB.Context.TypeMappings[typeof(Mining)] = new Amazon.Util.TypeMapping(typeof(Mining), tableName);
             var config = new DynamoDBContextConfig { Conversion = DynamoDBEntryConversion.V2 };
             _dDBContext = new DynamoDBContext(ddbClient, config);
         }
 
-        public async Task SaveAsync(NFT nft)
+        public async Task SaveAsync(Mining mining)
         {
-            await _dDBContext.SaveAsync<NFT>(nft);
+            await _dDBContext.SaveAsync<Mining>(mining);
         }
 
-        public async Task<NFT> GetAsync(string id)
+        public async Task<Mining> GetAsync(string id)
         {
-            return await _dDBContext.LoadAsync<NFT>(id);
+            return await _dDBContext.LoadAsync<Mining>(id);
         }
 
         public async Task DeleteAsync(string id)
         {
-            await _dDBContext.DeleteAsync<NFT>(id);
+            await _dDBContext.DeleteAsync<Mining>(id);
         }
     }
 }

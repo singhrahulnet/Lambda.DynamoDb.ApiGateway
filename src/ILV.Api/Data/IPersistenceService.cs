@@ -5,8 +5,8 @@ namespace ILV.Api.Data
 {
     public interface IPersistenceService
     {
-        Task SaveAsync(NFT nft);
-        Task<NFT> GetAsync(string id);
+        Task SaveAsync(Mining mining);
+        Task<Mining> GetAsync(string id);
         Task DeleteAsync(string id);
     }
 }

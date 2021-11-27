@@ -26,7 +26,7 @@ namespace ILV.Api.Tests.Unit
             _mockMiningService.Setup(x=>x.StartMining())
                                 .Returns(Task.FromResult<Guid>(newlyAddedGuid));
 
-            var result = await sut.AddNFTAsync(null, null);
+            var result = await sut.StartMiningAsync(null, null);
 
             Assert.IsType<APIGatewayProxyResponse>(result);
             Assert.Equal(201, result.StatusCode);
@@ -39,7 +39,7 @@ namespace ILV.Api.Tests.Unit
 
             var request = new APIGatewayProxyRequest();
 
-            var result = await sut.GetNFTAsync(request, null);
+            var result = await sut.GetMiningStatusAsync(request, null);
 
             Assert.IsType<APIGatewayProxyResponse>(result);
             Assert.Equal(400, result.StatusCode);
@@ -59,7 +59,7 @@ namespace ILV.Api.Tests.Unit
                                 .Returns(Task.FromResult<int>(99));
 
 
-            var result = await sut.GetNFTAsync(request, null);
+            var result = await sut.GetMiningStatusAsync(request, null);
 
             Assert.IsType<APIGatewayProxyResponse>(result);
             Assert.Equal(200, result.StatusCode);
@@ -80,7 +80,7 @@ namespace ILV.Api.Tests.Unit
                                 .Returns(Task.FromResult<int>(-1));
 
 
-            var result = await sut.GetNFTAsync(request, null);
+            var result = await sut.GetMiningStatusAsync(request, null);
 
             Assert.IsType<APIGatewayProxyResponse>(result);
             Assert.Equal(404, result.StatusCode);
