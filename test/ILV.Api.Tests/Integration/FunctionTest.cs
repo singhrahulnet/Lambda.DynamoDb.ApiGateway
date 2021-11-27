@@ -40,7 +40,7 @@ namespace ILV.Api.Tests.Integration
             var context = new TestLambdaContext();
 
             APIGatewayProxyResponse response = await functions.AddNFTAsync(request, context);
-            Assert.Equal(200, response.StatusCode);
+            Assert.Equal(201, response.StatusCode);
 
             var nftId = response.Body;
 
@@ -62,7 +62,7 @@ namespace ILV.Api.Tests.Integration
             var context = new TestLambdaContext();
 
             APIGatewayProxyResponse response = await functions.AddNFTAsync(request, context);
-            Assert.Equal(200, response.StatusCode);
+            Assert.Equal(201, response.StatusCode);
 
             var nftId = response.Body;
 
@@ -85,7 +85,7 @@ namespace ILV.Api.Tests.Integration
             var context = new TestLambdaContext();
 
             APIGatewayProxyResponse response = await functions.AddNFTAsync(request, context);
-            Assert.Equal(200, response.StatusCode);
+            Assert.Equal(201, response.StatusCode);
 
             var nftId = response.Body;
 

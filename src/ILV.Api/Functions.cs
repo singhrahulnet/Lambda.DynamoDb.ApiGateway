@@ -44,7 +44,7 @@ namespace ILV.Api
 
             return new APIGatewayProxyResponse
             {
-                StatusCode = (int)HttpStatusCode.OK,
+                StatusCode = (int)HttpStatusCode.Created,
                 Body = id.ToString()
             };
         }
