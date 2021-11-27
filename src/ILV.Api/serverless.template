@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Transform": "AWS::Serverless-2016-10-31",
-  "Description": "AWS Serverless API that exposes the add and get operations for a mining platform using Amazon DynamoDB.",
+  "Description": "AWS Serverless API that exposes the add and get status operations for a mining operation using Amazon DynamoDB.",
   "Parameters": {
     "ShouldCreateTable": {
       "Type": "String",
@@ -13,7 +13,7 @@
     },
     "MiningTableName": {
       "Type": "String",
-      "Description": "Name of DynamoDB table used to store the mining post. If left blank a new table will be created.",
+      "Description": "Name of DynamoDB table used to store the mining record.",
       "MinLength": "0"
     },
     "ReadCapacity": {
@@ -48,13 +48,13 @@
     }
   },
   "Resources": {
-    "Getmining": {
+    "GetMining": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
         "Handler": "ILV.Api::ILV.Api.Functions::GetMiningStatusAsync",
         "Runtime": "dotnetcore3.1",
         "CodeUri": "",
-        "Description": "Function to get a single mining",
+        "Description": "Function to get a mining status",
         "MemorySize": 256,
         "Timeout": 30,
         "Role": null,
@@ -88,13 +88,13 @@
         }
       }
     },
-    "Addmining": {
+    "StartMining": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
         "Handler": "ILV.Api::ILV.Api.Functions::StartMiningAsync",
         "Runtime": "dotnetcore3.1",
         "CodeUri": "",
-        "Description": "Function to add a mining",
+        "Description": "Function to start a mining operation",
         "MemorySize": 256,
         "Timeout": 30,
         "Role": null,
@@ -122,7 +122,7 @@
             "Type": "Api",
             "Properties": {
               "Path": "/",
-              "Method": "PUT"
+              "Method": "POST"
             }
           }
         }
